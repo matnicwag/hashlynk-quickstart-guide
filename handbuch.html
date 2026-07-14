@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HashLink Handbuch</title>
+<style>
+  :root{
+    --bg:#e0e0e0;
+    --card:#ffffff;
+    --dark:#111111;
+    --orange:#ff6a00;
+    --grey-text:#555555;
+    --label-grey:#8a8a8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#111;
+  }
+  .label{
+    font-family:"SFMono-Regular",Consolas,Menlo,monospace;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-size:11px;
+    color:var(--label-grey);
+  }
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 20px;
+    border-bottom:1px solid #cfcfcf;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+  }
+  header .brand{
+    font-family:"SFMono-Regular",Consolas,Menlo,monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+    font-weight:600;
+  }
+  header .back{
+    font-family:monospace;
+    font-size:11px;
+    color:var(--orange);
+    text-decoration:none;
+  }
+  .hero{
+    padding:36px 20px 20px;
+  }
+  .hero .label{margin-bottom:10px;}
+  .hero h1{
+    font-size:32px;
+    line-height:1.1;
+    margin:0 0 14px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero p{
+    font-size:15px;
+    color:var(--grey-text);
+    line-height:1.5;
+    margin:0 0 18px;
+  }
+  .pdf-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--dark);
+    color:#fff;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .pdf-btn span.ic{color:var(--orange);}
+  .version-pill{
+    display:inline-block;
+    margin-top:14px;
+    margin-left:10px;
+    padding:5px 10px;
+    background:#fff;
+    border-radius:20px;
+    font-family:monospace;
+    font-size:11px;
+    color:var(--label-grey);
+  }
+  .toc{
+    margin:8px 20px 0;
+    background:#fff;
+    border-radius:14px;
+    padding:6px 18px;
+  }
+  .toc a{
+    display:block;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+    color:#111;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    display:flex;
+    justify-content:space-between;
+  }
+  .toc a:last-child{border-bottom:none;}
+  .toc a span{color:var(--orange);}
+
+  section{
+    padding:30px 20px;
+    scroll-margin-top:70px;
+  }
+  section.alt{background:#d4d4d4;}
+  section.dark{background:var(--dark);color:#fff;}
+  section.dark .label{color:#999;}
+  section h2{font-size:22px;margin:6px 0 6px;font-weight:700;}
+  section > p.intro{font-size:14px;color:var(--grey-text);margin:0 0 18px;line-height:1.5;}
+  section.dark > p.intro{color:#bbb;}
+
+  .step-list{display:flex;flex-direction:column;}
+  .step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.08);}
+  section.dark .step{border-bottom:1px solid rgba(255,255,255,0.12);}
+  .step:last-child{border-bottom:none;}
+  .step .num{flex:0 0 26px;font-family:monospace;font-weight:700;color:var(--orange);font-size:14px;padding-top:2px;}
+  .step .txt h3{margin:0 0 4px;font-size:16px;font-weight:600;}
+  .step .txt p{margin:0;font-size:13.5px;color:var(--grey-text);line-height:1.4;}
+  section.dark .step .txt p{color:#ccc;}
+
+  .card-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  .card{background:var(--card);border-radius:14px;padding:16px 18px;}
+  .card h3{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--grey-text);line-height:1.45;}
+  .card.dark{background:var(--dark);color:#fff;}
+  .card.dark h3{color:#fff;}
+  .card.dark p{color:#ccc;}
+  .card.status-green h3{color:#1a9e4f;}
+  .card.status-yellow h3{color:#c99400;}
+  .card.status-red h3{color:#d43b2f;}
+
+  .role-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .role{background:#fff;border-radius:10px;padding:10px 14px;font-size:13px;flex:1 1 140px;}
+  .role b{display:block;font-size:12px;color:var(--orange);margin-bottom:2px;}
+
+  .legal-col{margin-bottom:10px;}
+  .legal-item{padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.08);}
+  section.dark .legal-item{border-bottom:1px solid rgba(255,255,255,0.12);}
+  .legal-item:last-child{border-bottom:none;}
+  .legal-item .p-num{font-family:monospace;color:var(--orange);font-size:12px;margin-right:6px;}
+  .legal-item h4{display:inline;font-size:13.5px;font-weight:700;margin:0;}
+  .legal-item p{margin:5px 0 0;font-size:13px;color:var(--grey-text);line-height:1.5;}
+  section.dark .legal-item p{color:#bbb;}
+  .legal-grid{display:grid;grid-template-columns:1fr;gap:0 24px;}
+  @media(min-width:760px){ .legal-grid{grid-template-columns:1fr 1fr;} }
+
+  .agb-note{
+    background:#111;color:#fff;border-radius:14px;padding:16px 18px;font-size:13px;line-height:1.5;margin-top:16px;
+  }
+  .agb-note a{color:var(--orange);text-decoration:none;font-weight:600;}
+  section.alt .agb-note{background:var(--orange);}
+  section.alt .agb-note a{color:#111;}
+
+  .shot{width:100%;max-width:560px;border-radius:14px;display:block;margin:14px 0 6px;box-shadow:0 2px 10px rgba(0,0,0,0.12);}
+  .shot-cap{font-size:11.5px;color:var(--label-grey);margin-bottom:16px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .chip{background:#fff;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;}
+  .chip .tag{color:var(--orange);font-size:10.5px;font-family:monospace;font-weight:400;margin-left:6px;}
+  .cta-strip{background:var(--orange);color:#fff;border-radius:14px;padding:16px 18px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .cta-strip span{font-size:13.5px;}
+  .cta-strip a{color:#111;text-decoration:none;font-weight:700;font-size:13.5px;white-space:nowrap;}
+  .checklist-card{background:#fff;border-radius:14px;padding:16px 18px;margin-top:14px;}
+  .checklist-card .label{color:var(--orange);margin-bottom:10px;}
+  .checklist-card ul{margin:0;padding:0;list-style:none;}
+  .checklist-card li{font-size:14px;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:10px;}
+  .checklist-card li:last-child{border-bottom:none;}
+  .checklist-card li::before{content:"○";color:var(--orange);}
+  @media print{ .cta-strip{background:#f4f4f4 !important;color:#111 !important;} .cta-strip a{color:#111 !important;} }
+
+  footer{background:var(--dark);color:#fff;padding:32px 20px 40px;}
+  footer h2{font-size:22px;margin:6px 0 18px;}
+  footer .row{margin-bottom:14px;}
+  footer .row .label{color:#888;margin-bottom:3px;}
+  footer .row .val{font-size:15px;}
+  footer .row a{color:#fff;text-decoration:none;border-bottom:1px solid var(--orange);}
+  .bottombar{text-align:center;padding:14px;font-family:monospace;font-size:10.5px;color:#777;background:#0a0a0a;}
+
+  /* ---------- PRINT / PDF ---------- */
+  @media print{
+    body{background:#fff;}
+    header{position:static;border-bottom:2px solid #000;}
+    .pdf-btn{display:none;}
+    .toc{border:1px solid #ccc;box-shadow:none;}
+    section, footer{padding:16px 0;break-inside:avoid;}
+    section.alt, section.dark, footer{background:#fff !important;color:#111 !important;}
+    section.dark h2, section.dark .label, footer h2, footer .label{color:#111 !important;}
+    section.dark .step .txt p, section.dark .legal-item p, footer .row .val{color:#333 !important;}
+    .card, .card.dark{background:#f4f4f4 !important;color:#111 !important;border:1px solid #ddd;}
+    .card.dark h3, .card.dark p{color:#111 !important;}
+    .agb-note{background:#f4f4f4 !important;color:#111 !important;border:1px solid #ccc;}
+    .agb-note a{color:#111 !important;}
+    a{text-decoration:none;color:inherit;}
+    .step, .legal-item, .card{break-inside:avoid;}
+    section h2::before{content:"";}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">HASHLYNK · HANDBUCH</div>
+  <a class="back" href="index.html">← Kurzanleitung</a>
+</header>
+
+<div class="hero">
+  <div class="label">Referenz · Bedienung · Recht</div>
+  <h1>Das vollständige Handbuch.</h1>
+  <p>Alles über die tägliche Bedienung, Konfiguration und die rechtlichen Grundlagen des HashLink Controllers. Für den ersten Anschluss reicht die Kurzanleitung.</p>
+  <button class="pdf-btn" onclick="window.print()"><span class="ic">&#8595;</span> Als PDF speichern / drucken</button>
+  <span class="version-pill">STAND · JULI 2026 · V1.0</span>
+</div>
+
+<nav class="toc">
+  <a href="#lieferumfang">Lieferumfang <span>→</span></a>
+  <a href="#wandmontage">Wandmontage <span>→</span></a>
+  <a href="#homescreen">Homescreen-Übersicht <span>→</span></a>
+  <a href="#einschaltbutton">Einschaltbutton <span>→</span></a>
+  <a href="#anmeldung">Anmeldung & Fernzugriff <span>→</span></a>
+  <a href="#miner-ems">Miner & EMS <span>→</span></a>
+  <a href="#scheduler">Scheduler <span>→</span></a>
+  <a href="#benutzer">Benutzerverwaltung <span>→</span></a>
+  <a href="#lizenz">Lizenzvereinbarung <span>→</span></a>
+  <a href="#nutzung">Nutzungsvereinbarung <span>→</span></a>
+</nav>
+
+<section id="lieferumfang">
+  <div class="label">Vor dem Setup prüfen</div>
+  <h2>Lieferumfang.</h2>
+  <p class="intro">Drei Komponenten Standard, Touchmonitor optional in eigener Verpackung.</p>
+  <div class="card-grid">
+    <div class="card"><h3>A · HashLink Controller</h3><p>Automation-Controller mit Steuerungs-, Monitoring- und Netzwerkfunktion. Kein eigenes Display — Bedienung per RustDesk oder optionalem Touchmonitor.</p></div>
+    <div class="card"><h3>B · 12V DC Netzteil</h3><p>Externes Netzteil für die Versorgung des Controllers. Eingang 230 V AC.</p></div>
+    <div class="card"><h3>C · Wandhalterung</h3><p>Montageplatte zur sicheren Wandbefestigung. Schraubenset im Lieferumfang.</p></div>
+    <div class="card"><h3>D · Touchmonitor 10" <span class="tag" style="color:var(--orange);font-family:monospace;font-size:11px;">optional</span></h3><p>10-Zoll Touchmonitor für lokale Bedienung ohne RustDesk. Eigene Verpackung.</p></div>
+  </div>
+  <div class="agb-note">Bei fehlenden oder beschädigten Komponenten HASHLYNK kontaktieren: <a href="mailto:office@hashlynk.at">office@hashlynk.at</a></div>
+</section>
+
+<section class="alt" id="wandmontage">
+  <div class="label">Befestigung · 3 Schritte · optional</div>
+  <h2>Wandmontage.</h2>
+  <p class="intro">Wir empfehlen die Montage durch Fachpersonal. Mindestens 5 cm rundum freihalten. Für den ersten Betrieb nicht erforderlich.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>Löcher vorbohren</h3><p>Bohrlöcher entsprechend der Halterung markieren und bohren. Auf den korrekten Abstand achten.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Controller einschieben</h3><p>HashLink Controller in die Halterung einschieben, bis er sicher einrastet und vollständig sitzt.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>An die Wand montieren</h3><p>Vorrichtung mit dem eingeschobenen Controller über die vorbereiteten Bohrlöcher an die Wand schrauben.</p></div></div>
+  </div>
+  <div class="agb-note" style="background:#111;">Werkzeug: Bohrmaschine · Wasserwaage · Schraubendreher</div>
+</section>
+
+<section id="homescreen">
+  <div class="label">Hauptansicht nach Login</div>
+  <h2>Homescreen-Übersicht.</h2>
+  <p class="intro">Fünf feste Bereiche der HashLink-Hauptansicht.</p>
+  <img class="shot" src="screens/homescreen.png" alt="HashLink Homescreen">
+  <div class="shot-cap">Hauptansicht nach dem Login, mit nummerierten Bereichen.</div>
+  <div class="card-grid">
+    <div class="card"><h3>1 · Hinweisinsel</h3><p>System-Hinweise und Meldungen, oben links.</p></div>
+    <div class="card"><h3>2 · Statusanzeigen</h3><p>Echtzeit-Werte und Verbindungen (Leistung, Hashrate, Temperatur), oben rechts.</p></div>
+    <div class="card"><h3>3 · Energieverteilung</h3><p>Grafische Übersicht der Energieflüsse und angeschlossenen Miner.</p></div>
+    <div class="card"><h3>4 · Taskleiste</h3><p>Navigation zwischen den Hauptbereichen, unten.</p></div>
+    <div class="card"><h3>5 · Profilauswahl</h3><p>Aktuelles Profil und Zeitplan auf einen Blick.</p></div>
+  </div>
+</section>
+
+<section class="alt" id="einschaltbutton">
+  <div class="label">Systemzustand auf einen Blick</div>
+  <h2>Einschaltbutton.</h2>
+  <p class="intro">Die Farbe zeigt den Systemzustand — tippen/klicken wechselt zwischen Aktiv und Standby.</p>
+  <div class="card-grid">
+    <div class="card status-green"><h3>Grün · System läuft</h3><p>Controller arbeitet im aktiven Betriebsmodus, alle Komponenten betriebsbereit.</p></div>
+    <div class="card status-yellow"><h3>Gelb · System in Standby</h3><p>Manuell pausiert oder Wartezustand. Kein aktiver Betrieb.</p></div>
+    <div class="card status-red"><h3>Rot · Fehler / Gestoppt</h3><p>Ein Fehler liegt vor, System wurde automatisch gestoppt. Details im Error-Screen.</p></div>
+  </div>
+</section>
+
+<section id="anmeldung">
+  <div class="label">Kein eigenes Display · Fernzugriff nötig</div>
+  <h2>Anmeldung & Fernzugriff.</h2>
+  <p class="intro">Der HashLink Controller hat kein eigenes Display. Ohne den optionalen Touchmonitor läuft jede Bedienung über <b>RustDesk</b>, eine quelloffene Fernwartungssoftware, von einem zweiten PC, Laptop oder Tablet aus.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>RustDesk installieren</h3><p>Auf einem zweiten Gerät kostenlos von rustdesk.com herunterladen und installieren.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Verbinden</h3><p>RustDesk-ID vom Geräte-Datenblatt (in der Box) im Feld „Partner-ID" eingeben und verbinden.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>Passwort eingeben</h3><p>Bei Aufforderung das RustDesk-Passwort vom Datenblatt eingeben. Danach erscheint die HashLink-Oberfläche.</p></div></div>
+    <div class="step"><div class="num">04</div><div class="txt"><h3>Anmeldemaske aufrufen</h3><p>Bildschirm berühren (Touch) oder per Maus klicken.</p></div></div>
+    <div class="step"><div class="num">05</div><div class="txt"><h3>Mit Benutzer & Passwort anmelden</h3><p>Standard: Benutzer <b>User</b>, Passwort <b>1234</b>. Nach Erstinbetriebnahme unbedingt ändern — Werks-Zugangsdaten sind nicht sicher.</p></div></div>
+  </div>
+  <img class="shot" src="screens/login.png" alt="RustDesk Login-Bildschirm">
+  <div class="shot-cap">Anmeldemaske der HashLink-Oberfläche nach dem Verbinden per RustDesk.</div>
+  <div class="agb-note">RustDesk-Zugangsdaten sind streng vertraulich und ermöglichen Vollzugriff — nicht an Dritte weitergeben (siehe Lizenzvereinbarung § 8/§ 9).</div>
+  <div class="cta-strip">
+    <span>Erste Inbetriebnahme lieber gemeinsam mit uns machen?</span>
+    <a href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">Beratungstermin buchen →</a>
+  </div>
+</section>
+
+<section class="alt" id="miner-ems">
+  <div class="label">Konfigurationsbereich · 4 Schritte</div>
+  <h2>Miner & EMS.</h2>
+  <p class="intro">Mining-Hardware einbinden und das passende Energie-Management-System auswählen. Standard-Pfad: Settings → Allgemeine Miner-Konfiguration → Miner-Konfiguration.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>Systemeinstellungen öffnen</h3><p>In der Taskleiste auf den Systemeinstellungen-Button tippen.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Miner-Typ auswählen</h3><p>Unter „Allgemeine Miner-Konfiguration" die passende Hardware auswählen.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>EMS auswählen</h3><p>Unter „EMS-Konfiguration" das System wählen und Verbindungsparameter konfigurieren.</p></div></div>
+    <div class="step"><div class="num">04</div><div class="txt"><h3>Miner hinzufügen</h3><p>Unter „Miner-Konfiguration" die Geräte mit IP, Port und Anmeldedaten anlegen.</p></div></div>
+  </div>
+  <img class="shot" src="screens/ems_config.png" alt="Miner-Typ und EMS-Konfiguration">
+  <div class="shot-cap">Miner-Typ und EMS-Konfiguration in derselben Ansicht.</div>
+  <img class="shot" src="screens/miner_add.png" alt="Miner hinzufügen Formular">
+  <div class="shot-cap">Miner mit Name, Benutzername, Adresse, Port und Passwort anlegen.</div>
+  <div class="cta-strip">
+    <span>Miner- oder EMS-Anbindung lieber mit uns gemeinsam einrichten?</span>
+    <a href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">Beratungstermin buchen →</a>
+  </div>
+</section>
+
+<section id="scheduler">
+  <div class="label">Profile · Tagespläne · Wochenpläne</div>
+  <h2>Scheduler.</h2>
+  <p class="intro">Welches Profil wann aktiv ist — als Normal-Profil, Tagesplan oder Wochenplan. Ohne aktives Profil bleibt das System im Standby.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>Aktiven Zeitplan wählen</h3><p>Aus bestehenden Profilen, Tages- und Wochenplänen wählen. Es muss zuerst ein Profil erstellt werden.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Profil erstellen</h3><p>Schwellwerte, Zeitfenster und Prioritäten festlegen.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>Tagesplan erstellen</h3><p>Profile über den Tag verteilen — HashLink wechselt automatisch.</p></div></div>
+    <div class="step"><div class="num">04</div><div class="txt"><h3>Wochenplan erstellen</h3><p>Profile oder Tagespläne pro Wochentag einstellen.</p></div></div>
+    <div class="step"><div class="num">05</div><div class="txt"><h3>Einstellung prüfen</h3><p>Aktives Profil wird am Homescreen oben links angezeigt.</p></div></div>
+  </div>
+  <img class="shot" src="screens/scheduler.png" alt="Scheduler-Menü">
+  <div class="shot-cap">Zeitplan wählen, Profile, Tages- und Wochenpläne verwalten.</div>
+</section>
+
+<section class="alt" id="benutzer">
+  <div class="label">Systemeinstellungen → User-Management</div>
+  <h2>Benutzerverwaltung.</h2>
+  <p class="intro">Benutzerkonten anlegen, Passwörter ändern und Zugriffsrechte verwalten. Konten regelmäßig prüfen — ungenutzte Zugänge entfernen.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>User-Management öffnen</h3><p>In den Systemeinstellungen auf „Benutzer verwalten" tippen.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Anlegen oder bearbeiten</h3><p>Über „+ Benutzer hinzufügen" einen neuen Benutzer mit Name, Passwort und Rolle anlegen — oder bestehenden Eintrag bearbeiten.</p></div></div>
+  </div>
+  <img class="shot" src="screens/users.png" alt="Benutzerverwaltung">
+  <div class="shot-cap">Übersicht der angelegten Benutzerkonten.</div>
+  <div class="role-row">
+    <div class="role"><b>Administrator</b>Vollzugriff</div>
+    <div class="role"><b>Operator</b>Bedienung & Profile</div>
+    <div class="role"><b>Viewer</b>Read-only</div>
+  </div>
+</section>
+
+<section id="lizenz">
+  <div class="label">Lizenz</div>
+  <h2>Lizenzvereinbarung.</h2>
+  <p class="intro">Nutzungsrechte an Software, Firmware und Fernzugang des HashLink Controllers. Ergänzt die HASHLYNK AGB B2B (§ 14) bzw. AGB B2C (§ 14).</p>
+  <div class="legal-grid">
+    <div class="legal-col">
+      <div class="legal-item"><span class="p-num">§1</span><h4>Gegenstand</h4><p>Regelt die Nutzungsrechte an der auf dem HashLink Controller installierten Software und Firmware. Hardware-Eigentum bleibt unberührt.</p></div>
+      <div class="legal-item"><span class="p-num">§2</span><h4>Einfaches Nutzungsrecht</h4><p>Einfaches, nicht ausschließliches, nicht übertragbares Nutzungsrecht zur bestimmungsgemäßen Verwendung. Vervielfältigung oder Bearbeitung nur mit schriftlicher Zustimmung.</p></div>
+      <div class="legal-item"><span class="p-num">§3</span><h4>Lizenzgebühr & Laufzeit</h4><p>Die Lizenz ist mit dem Kaufpreis abgegolten und gilt unbefristet, gekoppelt an die Eigentümerschaft des gelieferten Geräts.</p></div>
+      <div class="legal-item"><span class="p-num">§4</span><h4>Eigentum & Quellcode</h4><p>Sämtliche Urheber-, Marken- und Schutzrechte verbleiben bei HASHLYNK. Reverse Engineering, Dekompilierung oder Disassemblierung nur im nach § 40e UrhG zwingend gestatteten Umfang.</p></div>
+      <div class="legal-item"><span class="p-num">§5</span><h4>Übertragung bei Verkauf</h4><p>Bei Eigentumsübergang der Hardware geht die Lizenz einmalig auf den neuen Eigentümer über. Schriftliche Anzeige an HASHLYNK mit Seriennummer und Kontaktdaten erforderlich.</p></div>
+      <div class="legal-item"><span class="p-num">§6</span><h4>Open-Source-Komponenten</h4><p>Enthält Open-Source-Software (u. a. Linux, RustDesk/AGPLv3). Es gelten die jeweiligen OSS-Lizenzen (hashlynk.at/oss-notices). AGPL-/GPL-Quellcode auf Anfrage.</p></div>
+      <div class="legal-item"><span class="p-num">§7</span><h4>Updates & Wartung</h4><p>Updates und Weiterentwicklungen sind nicht Bestandteil der Lieferung; gesonderte Wartungsvereinbarung erforderlich. Diese Lizenz gilt auch für künftige Updates.</p></div>
+    </div>
+    <div class="legal-col">
+      <div class="legal-item"><span class="p-num">§8</span><h4>RustDesk-Fernzugang</h4><p>Jeder Controller hat individuelle RustDesk-Zugangsdaten (ID, Passwort), fest mit dem Kundenaccount verknüpft. Streng vertraulich; keine Weitergabe an Dritte.</p></div>
+      <div class="legal-item"><span class="p-num">§9</span><h4>Verantwortung des Kunden</h4><p>Der Kunde haftet für alle unter seinen Zugangsdaten erfolgten Vorgänge. Verdacht auf Missbrauch oder Verlust ist HASHLYNK unverzüglich zu melden.</p></div>
+      <div class="legal-item"><span class="p-num">§10</span><h4>Zugriff durch HASHLYNK</h4><p>HASHLYNK darf für Wartung, Diagnose und Support auf das System zugreifen, ausschließlich auf Anforderung des Kunden oder bei nachweislichen Störungen. Zugriffe werden protokolliert.</p></div>
+      <div class="legal-item"><span class="p-num">§11</span><h4>Telemetrie & Betriebsdaten</h4><p>Der Controller übermittelt anonymisierte Betriebsdaten (Status, Fehlercodes, Versionen) zur Qualitätssicherung. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Details: Datenschutzerklärung.</p></div>
+      <div class="legal-item"><span class="p-num">§12</span><h4>Lizenzentzug & Sperre</h4><p>Bei wesentlichen Vertragsverletzungen (Reverse Engineering, unbefugte Weitergabe, Manipulation) fristlose Kündigung und Sperre des Fernzugangs. B2C: unter Beachtung des KSchG.</p></div>
+      <div class="legal-item"><span class="p-num">§13</span><h4>Bei Insolvenz</h4><p>Bei Insolvenz von HASHLYNK kann der Kunde — nach vollständig erfüllten Zahlungen — Quellcode beim Insolvenzverwalter anfordern (§ 14 AGB B2B). Escrow auf Wunsch.</p></div>
+      <div class="legal-item"><span class="p-num">§14</span><h4>Haftungsausschluss</h4><p>Die Lieferung der Software stellt keine Anlage-, Steuer- oder Rechtsberatung dar. Keine Gewähr für die Wirtschaftlichkeit der automatisierten Prozesse.</p></div>
+    </div>
+  </div>
+  <div class="agb-note">Es gelten ergänzend die HASHLYNK AGB B2B bzw. B2C: <a href="https://hashlynk.at/agbb2b">hashlynk.at/agbb2b</a> · <a href="https://hashlynk.at/agbb2c">hashlynk.at/agbb2c</a></div>
+</section>
+
+<section class="alt" id="nutzung">
+  <div class="label">Nutzung</div>
+  <h2>Nutzungsvereinbarung.</h2>
+  <p class="intro">Bestimmungsgemäßer Gebrauch, Betriebs- und Sicherheitspflichten des Kunden. Ergänzt die HASHLYNK AGB B2B (§ 11, § 12, § 12a) bzw. AGB B2C (§ 11, § 12).</p>
+  <div class="legal-grid">
+    <div class="legal-col">
+      <div class="legal-item"><span class="p-num">§1</span><h4>Bestimmungsgemäßer Gebrauch</h4><p>Der HashLink Controller dient ausschließlich der Steuerung und Automatisierung kompatibler Miner- und EMS-Systeme. Die eigentliche Mining-Funktion wird durch die separat angebundene Miner-Hardware ausgeführt; HASHLYNK ist nicht Betreiber des Mining-Vorgangs.</p></div>
+      <div class="legal-item"><span class="p-num">§2</span><h4>Kompatibilität</h4><p>Unterstützt werden ausschließlich die in der aktuellen Kompatibilitätsliste angeführten Miner- und EMS-Systeme. Für inkompatible Hardware keine Haftung und keine Gewährleistung.</p></div>
+      <div class="legal-item"><span class="p-num">§3</span><h4>Aufstellung & Umgebung</h4><p>Betrieb nur in trockenen Innenräumen, geschützt vor Feuchtigkeit, Staub und direkter Sonneneinstrahlung. Lüftungsschlitze freihalten — Mindestabstand 5 cm zu allen Seiten.</p></div>
+      <div class="legal-item"><span class="p-num">§4</span><h4>Elektrische Versorgung</h4><p>Anschluss an Hauselektrik (230 V AC) durch qualifizierte Elektrofachkraft. Dimensionierung von Zuleitung und Vorsicherungen gemäß § 12a AGB B2B bzw. § 12 AGB B2C.</p></div>
+      <div class="legal-item"><span class="p-num">§5</span><h4>Energieliefervertrag</h4><p>Der Kunde stellt sicher, dass sein Stromtarif die geplante Nutzung erlaubt. Viele Privatkundentarife schließen gewerbliche oder dauerlastige Nutzung aus. Nachforderungen des EVU zu Lasten des Kunden.</p></div>
+      <div class="legal-item"><span class="p-num">§6</span><h4>Netzwerk- & IT-Sicherheit</h4><p>Betrieb in angemessen abgesichertem Netzwerk (Firewall, kein offenes WLAN, regelmäßige Passwortwechsel). Schäden durch Angriffe über vom Kunden zu verantwortende Lücken sind haftungsausgeschlossen.</p></div>
+      <div class="legal-item"><span class="p-num">§7</span><h4>Konfiguration & Backups</h4><p>Seriennummer, RustDesk-Zugangsdaten und Profile sicher dokumentieren. Der Kunde ist für regelmäßige Sicherung eigener Konfigurationsdaten verantwortlich.</p></div>
+    </div>
+    <div class="legal-col">
+      <div class="legal-item"><span class="p-num">§8</span><h4>Gewährleistungsfristen</h4><p>B2C: 24 Monate ab Übergabe (§ 11 AGB B2C). B2B: 24 Monate ab Inbetriebnahme, max. 18 Monate ab Lieferung (§ 12 AGB B2B).</p></div>
+      <div class="legal-item"><span class="p-num">§9</span><h4>Siegel & Garantieausschluss</h4><p>Das Gehäuse ist mit Siegeln versehen. Entfernen oder Beschädigen sowie Eingriffe durch nicht autorisierte Personen führen zum sofortigen Erlöschen aller Ansprüche.</p></div>
+      <div class="legal-item"><span class="p-num">§10</span><h4>Meldepflichten</h4><p>Beschädigte Siegel sind HASHLYNK unverzüglich zu melden. Eingriffe am geöffneten Gerät nur durch autorisiertes HASHLYNK-Servicepersonal.</p></div>
+      <div class="legal-item"><span class="p-num">§11</span><h4>Mitwirkung im Supportfall</h4><p>Der Kunde stellt im Supportfall Logdaten, Fehlerbeschreibungen und Diagnosezugang bereit. Andernfalls erlischt der Anspruch für nicht reproduzierbare Fehler.</p></div>
+      <div class="legal-item"><span class="p-num">§12</span><h4>Ertragsausschluss</h4><p>HASHLYNK haftet nicht für Ertragsausfälle durch Netzstörungen, Internet-Ausfall, EVU-Lastabwurf, Hardware-Ausfall angebundener Miner, Pool-Ausfälle oder Marktwertänderungen.</p></div>
+      <div class="legal-item"><span class="p-num">§13</span><h4>Ausschlüsse</h4><p>Keine Gewährleistung für Verschleißteile, unsachgemäße Verwendung, Betrieb außerhalb der Grenzen, Schäden durch Dritte sowie Fremdkomponenten (Herstellergewährleistung).</p></div>
+      <div class="legal-item"><span class="p-num">§14</span><h4>Außerbetriebnahme & Entsorgung</h4><p>Entsorgung am Lebensende gem. ElektroG / EAG-V über kommunale Sammelstellen oder Rücknahme durch HASHLYNK. Entsorgung über Restmüll unzulässig.</p></div>
+    </div>
+  </div>
+  <div class="agb-note">Es gelten ergänzend die HASHLYNK AGB B2B bzw. B2C: <a href="https://hashlynk.at/agbb2b">hashlynk.at/agbb2b</a> · <a href="https://hashlynk.at/agbb2c">hashlynk.at/agbb2c</a></div>
+</section>
+
+<footer>
+  <div class="label">Support & Kontakt</div>
+  <h2>Bei Fragen melde dich.</h2>
+  <div class="row"><div class="label">E-Mail</div><div class="val"><a href="mailto:office@hashlynk.at">office@hashlynk.at</a></div></div>
+  <div class="row"><div class="label">Web</div><div class="val"><a href="https://www.hashlynk.at">www.hashlynk.at</a></div></div>
+  <div class="row"><div class="label">Persönliche Inbetriebnahme</div><div class="val"><a href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">2h-Beratungstermin buchen</a></div></div>
+  <div class="row"><div class="label">Adresse</div><div class="val">HASHLYNK GmbH · Mölltalstraße 43/1 · Kärnten · Österreich</div></div>
+</footer>
+
+<div class="bottombar">HASHLINK CONTROLLER · HANDBUCH · start.hashlynk.at/handbuch · V1.0 · 2026</div>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HashLink Quickstart</title>
+<style>
+  :root{
+    --bg:#e0e0e0;
+    --card:#ffffff;
+    --dark:#111111;
+    --orange:#ff6a00;
+    --grey-text:#555555;
+    --label-grey:#8a8a8a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;color:#111;}
+  .label{font-family:"SFMono-Regular",Consolas,Menlo,monospace;text-transform:uppercase;letter-spacing:0.08em;font-size:11px;color:var(--label-grey);}
+  header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #cfcfcf;position:sticky;top:0;background:var(--bg);z-index:10;}
+  header .brand{font-family:"SFMono-Regular",Consolas,Menlo,monospace;font-size:12px;letter-spacing:0.05em;font-weight:600;}
+  header .bolt{width:22px;height:22px;background:var(--dark);border-radius:5px;display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:13px;}
+  .hero{padding:36px 20px 22px;}
+  .hero .label{margin-bottom:10px;}
+  .hero h1{font-size:32px;line-height:1.1;margin:0 0 14px;font-weight:700;letter-spacing:-0.01em;}
+  .hero p{font-size:15px;color:var(--grey-text);line-height:1.5;margin:0;}
+  .version-pill{display:inline-block;margin-top:16px;padding:5px 10px;background:#fff;border-radius:20px;font-family:monospace;font-size:11px;color:var(--label-grey);}
+  section{padding:26px 20px;scroll-margin-top:70px;}
+  section.alt{background:#d4d4d4;}
+  section.dark{background:var(--dark);color:#fff;}
+  section.dark .label{color:#999;}
+  section.dark h2{color:#fff;}
+  section h2{font-size:23px;margin:6px 0 6px;font-weight:700;}
+  section > p.intro{font-size:14px;color:var(--grey-text);margin:0 0 16px;line-height:1.5;}
+  section.dark > p.intro{color:#bbb;}
+
+  .step-list{display:flex;flex-direction:column;}
+  .step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.08);}
+  section.dark .step{border-bottom:1px solid rgba(255,255,255,0.12);}
+  .step:last-child{border-bottom:none;}
+  .step .num{flex:0 0 26px;font-family:monospace;font-weight:700;color:var(--orange);font-size:14px;padding-top:2px;}
+  .step .txt h3{margin:0 0 4px;font-size:16px;font-weight:600;}
+  .step .txt p{margin:0;font-size:13.5px;color:var(--grey-text);line-height:1.4;}
+  section.dark .step .txt p{color:#ccc;}
+
+  .card-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  .card{background:var(--card);border-radius:14px;padding:16px 18px;}
+  .card h3{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .card p{margin:0;font-size:13.5px;color:var(--grey-text);line-height:1.45;}
+  .card.dark{background:var(--dark);color:#fff;}
+  .card.dark h3{color:#fff;}
+  .card.dark p{color:#ccc;}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .chip{background:#fff;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;}
+  .chip .tag{color:var(--orange);font-size:10.5px;font-family:monospace;font-weight:400;margin-left:6px;}
+
+  .checklist-card{background:#fff;border-radius:14px;padding:16px 18px;margin-top:14px;}
+  .checklist-card .label{color:var(--orange);margin-bottom:10px;}
+  .checklist-card ul{margin:0;padding:0;list-style:none;}
+  .checklist-card li{font-size:14px;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:10px;}
+  .checklist-card li:last-child{border-bottom:none;}
+  .checklist-card li::before{content:"○";color:var(--orange);}
+
+  .shot{width:100%;border-radius:14px;display:block;margin:14px 0 6px;box-shadow:0 2px 10px rgba(0,0,0,0.12);}
+  .shot-cap{font-size:11.5px;color:var(--label-grey);text-align:center;margin-bottom:4px;}
+
+  .cta-card{background:var(--orange);color:#fff;border-radius:16px;padding:22px 20px;margin-top:18px;}
+  .cta-card .label{color:rgba(255,255,255,0.85);}
+  .cta-card h3{margin:8px 0 8px;font-size:19px;font-weight:700;}
+  .cta-card p{margin:0 0 16px;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,0.95);}
+  .cta-btn{display:inline-block;background:#111;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;}
+  .cta-strip{background:#111;color:#fff;border-radius:14px;padding:16px 18px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .cta-strip span{font-size:13.5px;}
+  .cta-strip a{color:var(--orange);text-decoration:none;font-weight:700;font-size:13.5px;white-space:nowrap;}
+
+  .mini-link{display:inline-block;margin-top:10px;font-size:13px;color:var(--orange);font-weight:600;text-decoration:none;}
+
+  .link-card{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:14px;padding:16px 18px;text-decoration:none;color:#111;margin-bottom:10px;}
+  section.dark .link-card{background:#1c1c1c;color:#fff;}
+  .link-card .t{font-size:14.5px;font-weight:600;}
+  .link-card .s{font-size:12px;color:var(--label-grey);margin-top:2px;}
+  .link-card .arrow{color:var(--orange);font-size:18px;}
+
+  footer{background:var(--dark);color:#fff;padding:32px 20px 40px;}
+  footer h2{font-size:22px;margin:6px 0 18px;}
+  footer .row{margin-bottom:14px;}
+  footer .row .label{color:#888;margin-bottom:3px;}
+  footer .row .val{font-size:15px;}
+  footer .row a{color:#fff;text-decoration:none;border-bottom:1px solid var(--orange);}
+  footer .checklist{margin-top:20px;background:#1c1c1c;border-radius:14px;padding:16px 18px;}
+  footer .checklist li{font-size:13.5px;color:#ddd;margin-bottom:6px;}
+  .bottombar{text-align:center;padding:14px;font-family:monospace;font-size:10.5px;color:#777;background:#0a0a0a;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">HASHLYNK · QUICKSTART</div>
+  <div class="bolt">&#9889;</div>
+</header>
+
+<div class="hero">
+  <div class="label">Scan · Setup · Betrieb</div>
+  <h1>Willkommen beim HashLink Controller.</h1>
+  <p>Alles, was du für die Inbetriebnahme wirklich brauchst. Für Details gibt es unten das vollständige Handbuch.</p>
+  <div class="version-pill">STAND · JULI 2026 · V1.0</div>
+</div>
+
+<section class="dark">
+  <div class="label">Wichtig, bevor du startest</div>
+  <h2>Der Controller hat kein eigenes Display.</h2>
+  <p class="intro">Bedient wird er standardmäßig per Fernwartung über <b>RustDesk</b> von einem zweiten Gerät aus (PC, Laptop oder Tablet). Nur wenn zusätzlich der optionale 10" Touchmonitor angeschlossen ist, geht es auch direkt am Gerät vor Ort.</p>
+  <div class="checklist-card">
+    <div class="label">Das brauchst du zusätzlich zum Controller</div>
+    <ul>
+      <li>Einen zweiten PC, Laptop oder Tablet mit Internetzugang</li>
+      <li>RustDesk installiert — kostenlos unter <b>rustdesk.com</b></li>
+      <li>Das Geräte-Datenblatt aus der Box (RustDesk-ID & Passwort)</li>
+    </ul>
+  </div>
+  <img class="shot" src="screens/login.png" alt="RustDesk Login-Bildschirm">
+  <div class="shot-cap">So sieht der Anmeldebildschirm nach dem Verbinden per RustDesk aus.</div>
+  <div class="cta-card">
+    <div class="label">HashLynk Setup-Service</div>
+    <h3>Lieber Schritt für Schritt begleiten lassen?</h3>
+    <p>Buch dir 2 Stunden Inbetriebnahme-Beratung direkt mit unserem Team — inklusive Miner- & EMS-Anbindung.</p>
+    <a class="cta-btn" href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">Termin buchen →</a>
+  </div>
+</section>
+
+<section>
+  <div class="label">Vor dem Setup kurz prüfen</div>
+  <h2>Lieferumfang.</h2>
+  <p class="intro">Drei Komponenten Standard, Touchmonitor optional in eigener Verpackung.</p>
+  <div class="chip-row">
+    <div class="chip">HashLink Controller</div>
+    <div class="chip">12V DC Netzteil</div>
+    <div class="chip">Wandhalterung</div>
+    <div class="chip">Touchmonitor 10" <span class="tag">optional</span></div>
+  </div>
+  <a class="mini-link" href="handbuch.html#lieferumfang">Details zu jeder Komponente im Handbuch →</a>
+</section>
+
+<section class="alt">
+  <div class="label">Anschluss in 5 Schritten</div>
+  <h2>Setup-Guide.</h2>
+  <p class="intro">Reihenfolge einhalten. Boot-Vorgang ca. 60 Sekunden.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>DC-Stecker anschließen</h3><p>In die Versorgungsbuchse auf der Rückseite.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Netzteil mit 230 V AC verbinden</h3><p>Schutzkontakt-Steckdose im selben Raum.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>Ethernet-Kabel in LAN-Port</h3><p>RJ45, mindestens Cat 5e — der Controller braucht Netzwerk für RustDesk.</p></div></div>
+    <div class="step"><div class="num">04</div><div class="txt"><h3>Optional: Touchmonitor verbinden</h3><p>HDMI + USB, falls vorhanden. Sonst weiter per RustDesk.</p></div></div>
+    <div class="step"><div class="num">05</div><div class="txt"><h3>Power-Button auf der Rückseite drücken</h3><p>Status-LED leuchtet durchgehend, sobald bereit.</p></div></div>
+  </div>
+  <a class="mini-link" href="handbuch.html#wandmontage">Controller stattdessen an die Wand montieren? Anleitung im Handbuch →</a>
+</section>
+
+<section id="inbetriebnahme">
+  <div class="label">Das Wichtigste — vom Boot bis zum aktiven Profil</div>
+  <h2>Inbetriebnahme.</h2>
+  <p class="intro">Alle Aktionen laufen über die HashLink-Oberfläche, die du per RustDesk (oder Touchmonitor) siehst.</p>
+  <div class="step-list">
+    <div class="step"><div class="num">01</div><div class="txt"><h3>Controller hochfahren</h3><p>Power-Button drücken, Boot-Vorgang abwarten (ca. 60 Sek.), bis die Status-LED durchgehend leuchtet.</p></div></div>
+    <div class="step"><div class="num">02</div><div class="txt"><h3>Per RustDesk verbinden</h3><p>RustDesk auf deinem PC/Laptop öffnen, die RustDesk-ID vom Geräte-Datenblatt eingeben, verbinden, Passwort eingeben. Alternativ direkt am Touchmonitor.</p></div></div>
+    <div class="step"><div class="num">03</div><div class="txt"><h3>Anmelden & Passwort ändern</h3><p>Standard: Benutzer <b>User</b> / Passwort <b>1234</b>. Direkt danach unter Benutzerverwaltung ändern — Werks-Zugangsdaten sind nicht sicher.</p></div></div>
+    <div class="step"><div class="num">04</div><div class="txt"><h3>Miner einbinden</h3><p>Unter Systemeinstellungen → Miner-Konfiguration jedes Mining-Gerät mit IP-Adresse, Port und Zugangsdaten hinzufügen und verifizieren.</p></div></div>
+    <div class="step"><div class="num">05</div><div class="txt"><h3>EMS auswählen</h3><p>Unter EMS-Konfiguration das passende Energie-Management-System wählen — die Verbindung wird automatisch hergestellt.</p></div></div>
+    <div class="step"><div class="num">06</div><div class="txt"><h3>Betriebsprofil anlegen & aktivieren</h3><p>Schwellwerte und Zeitfenster festlegen, dann den Einschalt-Button auf Grün setzen. System läuft automatisch.</p></div></div>
+  </div>
+  <img class="shot" src="screens/ems_config.png" alt="Miner-Typ und EMS-Konfiguration">
+  <div class="shot-cap">Miner-Typ und EMS werden in derselben Ansicht konfiguriert.</div>
+  <img class="shot" src="screens/miner_add.png" alt="Miner hinzufügen">
+  <div class="shot-cap">Miner mit Name, Adresse, Port und Passwort anlegen.</div>
+  <div class="cta-strip">
+    <span>Unsicher bei Miner- oder EMS-Anbindung?</span>
+    <a href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">Beratungstermin buchen →</a>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="label">Lesen vor Inbetriebnahme</div>
+  <h2>Sicherheitshinweise.</h2>
+  <p class="intro">Missachtung kann zu Personen- und Sachschäden führen.</p>
+  <div class="card-grid">
+    <div class="card dark"><h3>Stromschlaggefahr</h3><p>Vor Anschluss/Wartung Netzteil vollständig trennen. Nie mit feuchten Händen berühren.</p></div>
+    <div class="card dark"><h3>Fachgerechte Installation</h3><p>Anschluss (230 V AC) & Wandmontage nur durch Elektrofachkraft. Sonst Garantieverlust.</p></div>
+    <div class="card dark"><h3>Betriebsumgebung</h3><p>Nur trockene Innenräume, mind. 5 cm Abstand rundum.</p></div>
+    <div class="card dark"><h3>Kinder & Unbefugte</h3><p>Außer Reichweite aufbewahren. Eingriffe nur durch autorisiertes Servicepersonal.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="label">Mehr als nur Setup</div>
+  <h2>Vollständiges Handbuch.</h2>
+  <p class="intro">Für die tägliche Bedienung, Wandmontage und rechtliche Details.</p>
+  <a class="link-card" href="handbuch.html#homescreen"><div><div class="t">Homescreen & Bedienung</div><div class="s">Taskleiste, Status-Ampel, Anmeldung</div></div><div class="arrow">→</div></a>
+  <a class="link-card" href="handbuch.html#wandmontage"><div><div class="t">Wandmontage</div><div class="s">Optional, 3 Schritte</div></div><div class="arrow">→</div></a>
+  <a class="link-card" href="handbuch.html#scheduler"><div><div class="t">Scheduler</div><div class="s">Profile, Tages- & Wochenpläne</div></div><div class="arrow">→</div></a>
+  <a class="link-card" href="handbuch.html#benutzer"><div><div class="t">Benutzerverwaltung</div><div class="s">Rollen: Administrator · Operator · Viewer</div></div><div class="arrow">→</div></a>
+  <a class="link-card" href="handbuch.html#lizenz"><div><div class="t">Lizenz- & Nutzungsvereinbarung</div><div class="s">Ergänzt die AGB B2B / B2C</div></div><div class="arrow">→</div></a>
+</section>
+
+<footer>
+  <div class="label">Support & Kontakt</div>
+  <h2>Bei Fragen melde dich.</h2>
+  <div class="row"><div class="label">E-Mail</div><div class="val"><a href="mailto:office@hashlynk.at">office@hashlynk.at</a></div></div>
+  <div class="row"><div class="label">Web</div><div class="val"><a href="https://www.hashlynk.at">www.hashlynk.at</a></div></div>
+  <div class="row"><div class="label">Persönliche Inbetriebnahme</div><div class="val"><a href="https://hashlynk.odoo.com/book/setup-hashlink-automation-controller">2h-Beratungstermin buchen</a></div></div>
+  <div class="row"><div class="label">Adresse</div><div class="val">HASHLYNK GmbH · Mölltalstraße 43/1 · Kärnten · Österreich</div></div>
+  <div class="checklist">
+    <div class="label" style="color:#ff6a00;margin-bottom:10px;">Vor dem Supportkontakt bereithalten</div>
+    <li>Seriennummer des Controllers (Geräte-Datenblatt in der Box)</li>
+    <li>RustDesk ID</li>
+    <li>Firmware-Version</li>
+    <li>Fehlermeldung / Screenshot</li>
+  </div>
+</footer>
+
+<div class="bottombar">HASHLINK CONTROLLER · QUICKSTART · start.hashlynk.at · V1.0 · 2026</div>
+
+</body>
+</html>
